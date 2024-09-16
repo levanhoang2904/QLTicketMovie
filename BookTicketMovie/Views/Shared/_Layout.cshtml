@@ -1,0 +1,95 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - BookTicketMovie</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/BookTicketMovie.styles.css" asp-append-version="true" />
+    
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+            <div class="container-fluid col-sm-10">
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">BookTicketMovie</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                    <ul class="navbar-nav flex-grow-1">
+                        @{
+                            var controllerName = ViewContext.RouteData.Values["controller"]!.ToString();
+                        }
+                      
+                        <li class="nav-item @(controllerName!.Equals("Genres") ? "bottom-2 border-bottom border-primary" : "")">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Genres" asp-action="Index">Loại phim</a>
+                        </li>
+                        <li class="nav-item @(controllerName!.Equals("Movies") ? "bottom-2 border-bottom border-primary" : "")">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Movies" asp-action="Index">Phim</a>
+                        </li>
+                        <li class="nav-item @(controllerName!.Equals("Rooms") ? "bottom-2 border-bottom border-primary" : "")">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Rooms" asp-action="Index">Phòng</a>
+                        </li>
+                        <li class="nav-item @(controllerName!.Equals("Chairs") ? "bottom-2 border-bottom border-primary" : "")">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Chairs" asp-action="Index">Ghế</a>
+                        </li>
+                        <li class="nav-item @(controllerName!.Equals("Showtimes") ? "bottom-2 border-bottom border-primary" : "")">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Showtimes" asp-action="Index">Suất chiếu</a>
+                        </li>
+                        <li class="nav-item @(controllerName!.Equals("Tickets") ? "bottom-2 border-bottom border-primary" : "")">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Tickets" asp-action="Index">Vé</a>
+                        </li>
+                       
+                        <li class="nav-item @(controllerName!.Equals("Account") ? "bottom-2 border-bottom border-primary" : "") ">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Index">Tài khoản</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <ul class="navbar-nav flex-grow-1 col-sm-2">
+              
+                @if (User.Identity != null)
+                {
+                    <li class="nav-item_1">
+                        <a class="nav-link-1 text-dark me-2 text-decoration-none" asp-area="">@User.Identity.Name</a>
+                    </li>
+                    <li class="nav-item_2">
+                        <a class="nav-link_2 text-dark" asp-area="" asp-controller="Account" asp-action="Logout">Đăng xuất</a>
+                    </li>
+                }
+                @if (User.Identity == null)
+                {
+                    <li class="nav-item">
+                        <a class="nav-link_3 text-dark" asp-area="" asp-controller="Account" asp-action="Login">Đăng nhập</a>
+                    </li>
+
+                }
+            </ul>
+
+        </nav>
+    </header>
+    
+    <div class="container">
+        <main role="main" class="" style="padding-bottom: 20px">
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer class="border-top footer text-muted">
+        <div class="container">
+            &copy; 2024 - BookTicketMovie - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+        </div>
+    </footer>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+
+    
+</body>
+</html>
+
+  

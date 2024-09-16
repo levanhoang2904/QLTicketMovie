@@ -1,0 +1,69 @@
+﻿@model BookTicketMovie.Models.Ticket
+
+@{
+    ViewData["Title"] = "Details";
+    var chairsJson = Newtonsoft.Json.JsonConvert.SerializeObject(ViewBag.Chairs);
+}
+
+
+<h1>Tạo vé phim</h1>
+
+<div>
+    <hr />
+    <form asp-action="Create">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="form-group">
+            <label asp-for="@Model.Showtime!.DateTime" class="control-label"></label>
+            <input hidden name="ShowtimeId" value="@Model.Showtime!.Id" class="form-control" />
+            <span>@Model.Showtime.DateTime</span>
+        </div>
+        <div class="form-group">
+            <label asp-for="@Model.Chair" class="control-label"></label>
+            <select asp-for="ChairId" class="form-control" asp-items="ViewBag.ChairId" id="chair"></select>
+        </div>
+        <div class="form-group">
+            <label asp-for="@Model.Movie" class="control-label"></label>
+            <input hidden name = "MovieId" value="@Model.Movie!.Id" class="form-control" />
+            <span>@Model.Movie!.Title</span>
+        </div>
+        <div class="form-group">
+            <label asp-for="@Model.SeatNumber" class="control-label"></label>
+            <select asp-for="@Model.SeatNumber" class="form-control" asp-items="ViewBag.NumberChairs"></select>
+        </div>
+        
+        <div class="form-group">
+            <label asp-for="@Model.Price" class="control-label"></label>
+            <input disabled value="" id="price" class="form-control" />
+        </div>
+        <div class="form-group">
+            <input type="submit" value="Create" class="btn btn-primary" />
+        </div>
+    </form>
+</div>
+
+<script>
+    var chairs = @Html.Raw(chairsJson);
+    var chairSelect = document.getElementById("chair");
+    var inputPrice = document.getElementById("price");
+    var selectedChairId = chairSelect.value;
+    const formatVND = (amount) => {
+        return amount.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' });
+    }
+    const price = (selectedChairId) => {
+        var chair = chairs.find(c => c.Id === selectedChairId);
+
+        if (chair) {
+            inputPrice.value = formatVND(chair.Price);
+        } else {
+            inputPrice.value = "0"
+        }
+    }
+    price(selectedChairId)
+
+    chairSelect.addEventListener("change", function () {
+        const selectedChairId2 = chairSelect.value;
+        price(selectedChairId2)
+    });
+
+   
+</script>

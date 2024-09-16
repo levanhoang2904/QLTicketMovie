@@ -1,0 +1,119 @@
+﻿@model BookTicketMovie.Models.MovieEditView
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Chỉnh sửa phim</h1>
+
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="@Model.Movie.Id" />
+            <div class="form-group mb-3">
+                <label asp-for="@Model.Movie.Title" class="control-label mb-2"></label>
+                <input asp-for="@Model.Movie.Title" class="form-control" />
+                <span asp-validation-for="@Model.Movie.Title" class="text-danger"></span>
+            </div>
+            <div class="form-group mb-3">
+                <label asp-for="@Model.Movie.ReleaseDate" class="control-label mb-2"></label>
+                <input asp-for="@Model.Movie.ReleaseDate" class="form-control" />
+                <span asp-validation-for="@Model.Movie.ReleaseDate" class="text-danger"></span>
+            </div>
+           
+            <div class="form-group mb-3">
+                <label asp-for="@Model.Movie.MovieGenres" class="control-label mb-2"></label>
+                <select class="form-control mb-3" id="genreSelect">
+                    <option value = "0">-- Chọn thể loại --</option>
+                    @foreach(var item in Model.Genres)
+                    {
+                        <option value = "@item.Id">@item.name</option>
+                    }
+                </select>
+                
+                <div class="form-group d-flex" id="selectedGenres">
+                    @foreach (var movieGenre in Model.Movie.MovieGenres)
+                    {
+                        if (Model.Genres.Select(g => g.Id).Contains(movieGenre.GenreId))
+                        {
+                            <input hidden value="@movieGenre.Genre.Id" name="idGenres" id="genre-@movieGenre.Genre.Id" />
+                            <div class="border border-2 me-2 p-2" onclick="removeGenre(@movieGenre.Genre.Id, this)">
+                                @movieGenre.Genre.name
+                                <span class="px-3 cursor-pointer" >&times;</span>
+                            </div>
+                           
+                        }
+                    }
+                </div>
+            @*     <input hidden asp-for="MovieGenres" /> *@
+                @* <span asp-validation-for="ReleaseDate" class="text-danger"></span> *@
+            </div>
+            <div class="form-group mb-3">
+                <label asp-for="@Model.Movie.Time" class="control-label mb-2"></label>
+                <input asp-for="@Model.Movie.Time" class="form-control" />
+                <span asp-validation-for="@Model.Movie.Time" class="text-danger"></span>
+            </div>
+            <div class="form-group mb-3">
+                <label class="control-label mb-2">Ảnh minh họa:</label>
+                <input type="hidden" asp-for = "@Model.Movie.Photo" />
+                <input type="file" class="form-control" name="uploadPhoto"  accept="image/*"
+                       onchange="document.getElementById('Photo').src = window.URL.createObjectURL(this.files[0])" />
+            </div>
+            <div class="form-group mb-3">
+                <div class="col-lg-offset-2 col-sm-10">
+                    <input type="hidden" name="Photo" value="macbook.png" />
+                    <img id="Photo" src="~/images/movies/@(string.IsNullOrEmpty(Model.Movie.Photo) ? "nophoto.png" : Model.Movie.Photo)" class="img img-bordered" style="width:200px" />
+                </div>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Lưu" class="btn btn-primary me-2" />
+                <a asp-action="Index">Quay lại</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+
+<script>
+    function removeGenre(genreId, element) {
+        var inputElement = document.getElementById('genre-' + genreId);
+        if (inputElement) {
+            inputElement.remove();
+        }
+        element.remove();
+    }
+
+  
+        document.getElementById('genreSelect').addEventListener('change', function () {
+            var genreId = this.value;
+            var genreName = this.options[this.selectedIndex].text;
+
+            if (genreId == 0) return;
+
+            if (document.getElementById('genre-' + genreId)) {
+                return;
+            }
+
+            var input = document.createElement('input');
+            input.type = 'hidden';
+            input.value = genreId;
+            input.name = 'idGenres';
+            input.id = 'genre-' + genreId;
+
+            var genreDiv = document.createElement('div');
+            genreDiv.className = 'border border-2 me-2 p-2';
+            genreDiv.setAttribute('onclick', 'removeGenre(' + genreId + ', this)');
+            genreDiv.innerHTML = genreName + '<span class="px-3 cursor-pointer">&times;</span>';
+
+            document.getElementById('selectedGenres').appendChild(input);
+            document.getElementById('selectedGenres').appendChild(genreDiv);
+        });
+    
+</script>

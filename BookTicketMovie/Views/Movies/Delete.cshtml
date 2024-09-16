@@ -1,0 +1,46 @@
+﻿@model BookTicketMovie.Models.Movie
+
+@{
+    ViewData["Title"] = "Delete";
+}
+
+<h1>Xóa phim</h1>
+
+<h3>Bạn có chắc chắn muốn xóa phim này?</h3>
+<div>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Title)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Title)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.ReleaseDate)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.ReleaseDate)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Time)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Time)
+        </dd>
+    </dl>
+    
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="Id" />
+        @if(ViewBag.AllowDelete)
+        {
+            <input type="submit" value="Xóa" class="btn btn-danger" />
+        }
+        @if(ViewBag.AllowDelete == false)
+        {
+            <input disabled type="submit" value="Xóa" class="btn btn-danger" />
+
+        }
+        <a asp-action="Index">Quay lại</a>
+    </form>
+</div>

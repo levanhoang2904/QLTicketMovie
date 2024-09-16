@@ -1,0 +1,103 @@
+﻿@model BookTicketMovie.Models.MovieViewModel
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Danh sách phim</h1>
+
+<p>
+    <a asp-action="Create">Thêm mới</a>
+</p>
+<div class="table-responsvie">
+    <form id="formSearch" asp-action="Index" method="get" data-container="#searchResult">
+        <div class="input-group mb-3">
+            <div class="col-sm-3">
+                <select class="form-select" asp-for="MovieGenre" asp-items="Model.Genres">
+                    <option value="">Tất cả</option>
+                </select>
+            </div>
+
+            <input type="text" class="form-control" name="searchValue" value="@ViewBag.searchValue"
+                   placeholder="Nhập tên của phim cần tìm">
+            <input class="btn btn-outline-secondary" type="submit" value="Tìm" />
+        </div>
+    </form>
+
+    <table class="table table-bordered table-hover table-striped">
+        <thead class="thead-dark">
+            <tr class="bg-primary">
+                <th>@Html.DisplayNameFor(model => model.Movies[0].Photo)</th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Movies[0].Title)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Movies[0].ReleaseDate)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Movies[0].MovieGenres)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Movies[0].Time)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+           
+            @if (Model.Movies != null || Model.Movies.Count > 0)
+            {
+                @foreach (var item in Model.Movies)
+                {
+                    <tr class="align-middle">
+                        <td style="width: 80px"><img src="~/images/movies/@(string.IsNullOrEmpty(item.Photo) ? "nophoto.png" : item.Photo)" style="width: 100%" alt="" />
+                        <td>
+                                @Html.DisplayFor(modelItem => item.Title)
+                        </td>
+                        <td>
+                                @Html.DisplayFor(modelItem => item.ReleaseDate)
+                        </td>
+                        <td>
+                                @foreach (var movieGenre in item.MovieGenres)
+                                {
+
+                                    @if (movieGenre != item.MovieGenres.Last())
+                                    {
+                                        @(movieGenre.Genre.name + ", ")
+                                    }
+                                    else
+                                        @movieGenre.Genre.name
+
+
+                                }
+                        </td>
+                        <td>
+                                @Html.DisplayFor(modelItem => item.Time) phút
+                        </td>
+                        <td>
+                            <a asp-action="Edit" asp-route-id="@item.Id">Sửa</a> |
+                            <a asp-action="Details" asp-route-id="@item.Id">Chi tiết</a> |
+                            <a asp-action="Delete" asp-route-id="@item.Id">Xóa</a>
+                        </td>
+                    </tr>
+                }
+            } 
+        </tbody>
+       
+    </table>
+    @if (Model.Movies == null || Model.Movies.Count == 0)
+    {
+
+        <p style="color: red;">Phim không tồn tại!</p>
+
+    }
+    <nav aria-label="Page navigation example">
+        <ul class="pagination d-flex justify-content-center">
+            @for (int i = 1; i <= ViewBag.TotalPage; i++)
+            {
+                <li class="page-item @(i== ViewBag.pageIndex ? "active" : "")"><a class="page-link" href="/Movies?pageIndex=@i&searchValue=@ViewBag.searchValue&moviegenre=@ViewBag.searchGenre">@i</a></li>
+            }
+        
+        </ul>
+    </nav>
+</div>

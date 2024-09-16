@@ -1,0 +1,72 @@
+﻿@model BookTicketMovie.Models.Movie
+
+@{
+    ViewData["Title"] = "Book ticket";
+}
+
+<h1>Chi tiết (Đặt vé)</h1>
+
+<div>
+    <h4>Movie</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Title)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Title)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.ReleaseDate)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.ReleaseDate)
+        </dd>   
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.MovieGenres)
+        </dt>
+        <dd class="col-sm-10 d-flex">
+            @foreach (var item in Model.MovieGenres)
+            {
+                <div class="col-2 border border-2 text-center me-2 rounded-2">
+                    <span>@item.Genre.name</span>
+                </div>
+            }
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Time)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Time) phút
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Photo)
+        </dt>
+        <dd class="col-sm-10">
+            <img id="Photo" src="~/images/movies/@(string.IsNullOrEmpty(Model.Photo) ? "nophoto.png" : Model.Photo)" class="img img-bordered" style="width:200px" />
+
+        </dd>
+
+        <dt class="col-sm-12">Suất chiếu</dt>
+        @if (Model.Showtimes != null)
+        {
+            @foreach (var item in Model.Showtimes)
+            {
+                <dt class="col-2"></dt>
+                <dd class="col-sm-6">@item.DateTime</dd>
+                <a asp-action="Create" asp-controller = "Tickets" asp-route-id="@item.Id" asp-route-MovieId="@Model.Id" class="col-sm-4">Đặt vé</a>
+            }
+        }
+        @if (Model.Showtimes == null || Model.Showtimes.Count == 0)
+        {
+            <dd class="col-sm-10">Phim chưa có suất chiếu</dd>
+        }
+       
+
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model?.Id">Chỉnh sửa</a> |
+    <a asp-action="Index">Quay lại</a> |
+    <a asp-action="Create" asp-controller="Showtimes">Thêm suất chiếu</a>
+</div>

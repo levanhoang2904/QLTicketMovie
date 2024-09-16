@@ -1,0 +1,91 @@
+﻿@model IEnumerable<BookTicketMovie.Models.Ticket>
+
+@{
+    ViewData["Title"] = "Quản lý vé";
+}
+
+<h1>Quản lý vé</h1>
+
+<form id="formSearch" asp-action="Index" method="get" data-container="#searchResult">
+    <div class="input-group mb-3">
+        @* <div class="col-sm-3">
+            <select class="form-select" asp-for="MovieGenre" asp-items="Model.Genres">
+                <option value="">Tất cả</option>
+            </select>
+        </div> *@
+
+        <input type="text" class="form-control" name="searchValue" value="@ViewBag.searchValue"
+               placeholder="Nhập tên của phim cần tìm">
+        <input class="btn btn-outline-secondary" type="submit" value="Tìm" />
+    </div>
+</form>
+
+<div class="table-responsive">
+    <table class="table table-bordered table-hover table-striped">
+        <thead>
+            <tr class="bg-primary">
+                <th>
+                    @Html.DisplayNameFor(model => model.Showtime)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Chair)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Movie)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.SeatNumber)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.PurchaseDate)
+                </th>
+                <th>@Html.DisplayNameFor(model => model.Price)</th>
+              
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Showtime.DateTime)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Chair.NameChair)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Movie.Title)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.SeatNumber)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.PurchaseDate)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Price)
+                    </td>
+
+                   
+                </tr>
+            }
+        </tbody>
+    </table>
+    @if (Model == null || Model.Count() == 0)
+    {
+
+        <p style="color: red;">Vé không tồn tại!</p>
+
+    }
+    <nav aria-label="Page navigation example">
+        <ul class="pagination d-flex justify-content-center">
+            @for (int i = 1; i <= ViewBag.TotalPage; i++)
+            {
+          
+                <li class="page-item @(i== ViewBag.pageIndex ? "active" : "")"><a class="page-link" href="/Tickets?pageIndex=@i&searchValue=@ViewBag.searchValue">@i</a></li>
+            }
+
+        </ul>
+    </nav>
+</div>
+

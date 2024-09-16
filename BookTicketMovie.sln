@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.10.35027.167
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BookTicketMovie", "BookTicketMovie\BookTicketMovie.csproj", "{A6C7C21E-2E6D-42D8-98C0-1D0934AC4468}"
+EndProject
+Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{C8F75AC9-BE50-4D51-9474-91A2BECE4714}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A6C7C21E-2E6D-42D8-98C0-1D0934AC4468}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A6C7C21E-2E6D-42D8-98C0-1D0934AC4468}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A6C7C21E-2E6D-42D8-98C0-1D0934AC4468}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A6C7C21E-2E6D-42D8-98C0-1D0934AC4468}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C8F75AC9-BE50-4D51-9474-91A2BECE4714}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C8F75AC9-BE50-4D51-9474-91A2BECE4714}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C8F75AC9-BE50-4D51-9474-91A2BECE4714}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C8F75AC9-BE50-4D51-9474-91A2BECE4714}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {4D698D50-9628-41F0-9F62-A50FF8C153BE}
+	EndGlobalSection
+EndGlobal

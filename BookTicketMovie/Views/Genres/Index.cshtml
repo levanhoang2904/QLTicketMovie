@@ -1,0 +1,39 @@
+﻿@model IEnumerable<BookTicketMovie.Models.Genre>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Danh sách thể loại</h1>
+
+<p>
+    <a asp-action="Create">Thêm mới</a>
+</p>
+<div class="table-responsive">
+    <table class="table table-bordered table-hover table-striped">
+        <thead>
+            <tr class="bg-primary">
+                <th>
+                    @Html.DisplayNameFor(model => model.name)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.name)
+                    </td>
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.Id">Sửa</a> |
+                        <a asp-action="Details" asp-route-id="@item.Id">Chi tiết</a> |
+                        <a asp-action="Delete" asp-route-id="@item.Id">Xóa</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+</div>

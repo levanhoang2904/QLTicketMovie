@@ -1,0 +1,63 @@
+﻿@model BookTicketMovie.Models.ShowTimeView
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Chỉnh sửa suất chiếu</h1>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="showTime!.Id" />
+            <div class="form-group">
+                <label asp-for="showTime!.DateTime" class="control-label"></label>
+                <input asp-for="showTime!.DateTime" class="form-control" />
+                <span asp-validation-for="showTime!.DateTime" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="showTime!.MovieId" class="control-label"></label>
+                <select class="form-control" name="showTime.MovieId">
+                    @foreach (var item in Model.Movies)
+                    {
+                        if (item.Id == Model.showTime.MovieId)
+                        {
+                            <option value="@item.Id" selected>@item.Title</option>
+                        }
+                        else
+                        {
+                            <option value="@item.Id">@item.Title</option>
+                        }
+                    }
+                </select>
+                <span asp-validation-for="showTime!.MovieId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="showTime!.RoomId" class="control-label"></label>
+                <select class="form-control" name="showTime.RoomId">
+                    @foreach (var item in Model.Rooms)
+                    {
+                        if(item.Id == Model.showTime.RoomId)
+                        {
+                            <option value="@item.Id" selected>@item.NumberRoom</option>
+                        }
+                        else
+                        {
+                            <option value="@item.Id" >@item.NumberRoom</option>
+                        }
+                    }
+                </select>
+                <span asp-validation-for="showTime!.RoomId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Lưu" class="btn btn-primary me-2" />
+                <a asp-action="Index">Quay lại</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

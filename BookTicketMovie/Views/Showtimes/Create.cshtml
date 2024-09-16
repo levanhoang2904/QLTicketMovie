@@ -1,0 +1,89 @@
+﻿@model BookTicketMovie.Models.ShowTimeView
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Thêm suất chiếu</h1>
+
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group mb-3">
+                <label asp-for="showTime.MovieId" class="control-label mb-2"></label>
+                <select class="form-control" name="MovieId">
+                    <option value="null">-- Chọn phim --</option>
+                    @foreach (var item in Model.Movies)
+                    {
+                        <option value="@item.Id">@item.Title</option>
+                    }
+                </select>
+                <span asp-validation-for="showTime.MovieId" class="text-danger"></span>
+            </div>
+            <div class="form-group mb-3">
+                <label asp-for="showTime.DateTime" class="control-label mb-2"></label>
+                <div class="d-flex">
+                    <input asp-for="showTime.DateTime" class="form-control me-2" id = "inputDateTime"/>
+                    <button class="btn btn-primary" id="selectDateTime">Chọn</button>
+                </div>
+                <span asp-validation-for="showTime.DateTime" class="text-danger"></span>
+            </div>
+                <div id="dateTimeContainer" class="mb-2 d-flex flex-wrap"></div>
+            <div class="form-group mb-3">
+                <label asp-for="RoomId" class="control-label mb-2"></label>
+               
+                <select class="form-control mb-3" asp-for="RoomId">
+                    <option value ="0">-- Chọn phòng --</option>
+                    @foreach(var item in Model.Rooms)
+                    {
+                        if (!item.status)
+                        {
+                            <option value = "@item.Id">@item.NumberRoom</option>
+                        }
+                    }
+                </select>
+                <span asp-validation-for="RoomId" class="text-danger"></span>
+            </div>
+            <div class="form-group mb-3">
+                <input type="submit" value="Lưu" class="btn btn-primary me-2" />
+                <a asp-action="Index">Quay lại</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+
+<script>
+    var btnDate = document.getElementById("selectDateTime")
+    btnDate.addEventListener('click', (e) => {
+        e.preventDefault()
+        var inputDateTime = document.getElementById("inputDateTime")
+        console.log(inputDateTime.value)
+       if (inputDateTime.value != '') {
+            const dateTimeContainer = document.getElementById('dateTimeContainer')
+            var input = document.createElement('input');
+            input.type = 'hidden';
+            input.value = inputDateTime.value;
+            input.name = 'ListDateTimes';
+
+            var dateTimeDiv = document.createElement('div');
+            dateTimeDiv.className = 'd-inline border border-2 me-2 p-2 my-2';
+            // dateTimeDiv.setAttribute('onclick', 'removeGenre(' + genreId + ', this)');
+            const splitDateTime = inputDateTime.value.split("T")
+            dateTimeDiv.innerHTML = splitDateTime[0] + ' ' + splitDateTime[1] + '<span class="px-3 cursor-pointer">&times;</span>';
+            dateTimeDiv.querySelector('span').addEventListener('click', () => {
+                dateTimeDiv.remove();
+                input.remove();
+            });
+            dateTimeContainer.appendChild(input)
+            dateTimeContainer.appendChild(dateTimeDiv)
+       }
+    })
+</script>

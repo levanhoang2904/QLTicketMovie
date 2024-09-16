@@ -1,0 +1,35 @@
+version: '3.4'
+
+networks:
+   movieapp:
+
+services:
+  db:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    environment:
+      SA_PASSWORD: "P@ssw0rd2024!"
+      ACCEPT_EULA: "Y"
+    networks:
+      - movieapp
+    ports:
+      - "1433:1433"
+    volumes:
+      - mssql_data:/var/opt/mssql
+  bookticketmovie:
+    image: ${DOCKER_REGISTRY-}bookticketmovie
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+     - "5001:80"
+    environment:
+     -  ASPNETCORE_ENVIRONMENT=Production
+     - ConnectionStrings__DefaultConnection=Server=db;Database=QLTicketMovie;User Id=sa;Password=P@ssw0rd2024!;
+    networks:
+     - movieapp
+    depends_on: 
+     - db
+
+volumes:
+  mssql_data:
+
